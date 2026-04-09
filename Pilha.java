@@ -10,10 +10,5 @@ public class Pilha<X> {
         this.clonador = new Clonador();
     }
 
-    public <X>Pilha(int tamIni) throws Exception{
-        if(tamIni <=0)throw new Exception("Tamanho inválido.");
-        this.elemento = new Object[tamIni];
 
-        this.tamanhoInicial = tamIni;
-    }
 }
