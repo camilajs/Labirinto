@@ -41,13 +41,18 @@ public class Coordenada<X> {
         if(obj.getClass()!=this.getClass())
             return false;
 
-        Coordenada<X> fil = (Coordenada<X>) obj;
-        if(this.linha!=fil.linha)
+        Coordenada<X> coor = (Coordenada<X>) obj;
+        if(this.linha!=coor.linha)
             return false;
-        if (this.coluna!=fil.coluna)
+        if (this.coluna!=coor.coluna)
             return false;
         
         return true;
+    }
+    @Override
+    public String toString(){
+        return "Linha: "+ this.linha +
+                "Coluna:" + this.coluna;
     }
     
 }

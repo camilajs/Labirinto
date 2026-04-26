@@ -1,6 +1,6 @@
 public class Fila<X> implements Cloneable{
     private Object[] elemento;
-    private int  inicio = 0, fim = 0, qtd = 0;
+    private int  j = 0, fim = 0, qtd = 0;
     private Clonador<X> clonador;
 
     public Fila() throws Exception{
