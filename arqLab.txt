@@ -1,0 +1,8 @@
+é só p eu colocar la dnv se quiser ver o labirinto
+
+for (int j = 0; j<getLinhas(); j++){
+                for (int k = 0; k<getColunas(); k++){
+                    System.out.print(this.labirinto[j][k]);
+                }
+                System.out.println();
+            }

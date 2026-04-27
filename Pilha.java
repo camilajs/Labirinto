@@ -3,8 +3,9 @@ public class Pilha<X> {
     private int ultimo = -1;
     private Clonador clonador;
 
-    public <X>Pilha()throws Exception{
-        this.elemento = new Object[45];
+    public <X>Pilha(int tamanho)throws Exception{
+        if (tamanho<=0) throw new Exception("Tamanho inválido.");
+        this.elemento = new Object[tamanho];
 
         this.clonador = new Clonador();
     }
