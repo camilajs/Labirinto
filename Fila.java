@@ -8,23 +8,9 @@ public class Fila<X> implements Cloneable {
         this.clonador = new Clonador<X>();
     }
 
-    private void redimensioneSe (int novoTamanho) {
-        Object[] novo = new Object [novoTamanho];
-        int atual = this.inicio;
-        for (int i = 0; i < this.qtd; i++) {
-            novo[i] = this.elemento[atual];
-            atual = atual == this.elemento.length - 1 ? 0 : atual + 1;
-        }
-        this.elemento = novo;
-        this.inicio = 0;
-        this.fim = this.qtd;
-    }
-
     public void guardeUmItem(X x) throws Exception {
         if (x == null)
             throw new Exception("Falta o que guardar");
-        if (this.qtd == this.elemento.length)
-            this.redimensioneSe(2 * this.elemento.length);
 
         if (x instanceof Cloneable)
             this.elemento[fim] = this.clonador.clone(x);

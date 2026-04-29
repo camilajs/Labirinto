@@ -9,5 +9,6 @@ public class Main {
         String nomeArquivo  = scanner.nextLine();
         
         Labirinto lab = new Labirinto(nomeArquivo);
+        lab.resolve();
     }
 }

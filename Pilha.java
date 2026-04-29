@@ -11,12 +11,27 @@ public class Pilha<X> {
     }
 
     public void guardeUmItem(X x)throws Exception{
+        this.ultimo++;
         if (x instanceof Cloneable){
             this.elemento[this.ultimo] = this.clonador.clone(x);
         }else{
             this.elemento[this.ultimo]= x;
         }
-        this.ultimo++;
+        
+    }
+
+    
+    public X recupereUmItem () throws Exception // LIFO
+    {
+        if (this.ultimo==-1) // vazia
+            throw new Exception ("Nada a recuperar");
+
+        X ret=null;
+        if (this.elemento[this.ultimo] instanceof Cloneable)
+            ret = (X)this.clonador.clone((X)this.elemento[this.ultimo]);
+            ret = (X)this.elemento[this.ultimo];
+
+        return ret;
     }
 
     public void removaUmItem()throws Exception{

@@ -3,7 +3,7 @@ public class Coordenada<X> {
     private int coluna;
 
     public Coordenada(int lin, int col){
-        this.linha= lin;
+        this.linha = lin;
         this.coluna = col;
     }
     public int getLinha() {
@@ -49,7 +49,6 @@ public class Coordenada<X> {
         
         return true;
     }
-    
 
     @Override
     public String toString(){
