@@ -52,7 +52,7 @@ public class Coordenada<X> {
 
     @Override
     public String toString(){
-        return "Linha: " + this.linha +
-                "Coluna: " + this.coluna;
+        return "("+ this.linha + ","+
+                + this.coluna+")";
     }
 }

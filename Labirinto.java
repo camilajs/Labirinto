@@ -112,11 +112,7 @@ public class Labirinto implements Cloneable{
         if (getAtual() == null) throw new Exception("O labirinto não possui entrada.");
     }
 
-    //public char caractere(int lin, int col){
-      //  return this.labirinto[lin][col];
-    //}
-
-    public Fila<Coordenada> adicionaAFila(){
+    public Fila<Coordenada> adicionaAFila() throws Exception{
         try{
             this.fila = new Fila<Coordenada>();
     
@@ -127,6 +123,7 @@ public class Labirinto implements Cloneable{
                 fila.guardeUmItem(co);
             }
             linhaA = getAtual().getLinha()+1;
+            colunaA = getAtual().getColuna();
             if (linhaA<getLinhas() && (this.labirinto[linhaA][colunaA] == ' ' || this.labirinto[linhaA][colunaA] == 'S')) {
                 Coordenada co = new Coordenada<>(linhaA, colunaA);
                 fila.guardeUmItem(co);
@@ -137,67 +134,85 @@ public class Labirinto implements Cloneable{
                 Coordenada co = new Coordenada<>(linhaA, colunaA);
                 fila.guardeUmItem(co);
             }
+            linhaA = getAtual().getLinha();
             colunaA = getAtual().getColuna()+1;
             if (colunaA<getColunas() && (this.labirinto[linhaA][colunaA] == ' ' || this.labirinto[linhaA][colunaA] == 'S')) {
                 Coordenada co = new Coordenada<>(linhaA, colunaA);
                 fila.guardeUmItem(co);
             }
 
-            if(fila.isVazia()) return null; 
-
             
         }catch(Exception e){
-            System.out.println("Deu erro nessa bosta aq");
+            System.out.println("Deu erro: ");
             e.printStackTrace();
         }
-        return fila;
+        return this.fila;
     }
 
-    public void andar()throws Exception{
+    public void andar(Coordenada p, Fila<Coordenada> f)throws Exception{
+        setAtual(p);
 
-        Fila fil = adicionaAFila();
-        Coordenada passo = (Coordenada) fil.recupereUmItem();
-        setAtual(passo);
-
-        this.labirinto[passo.getLinha()][passo.getColuna()] = '*';
-        this.getCaminho().guardeUmItem(passo);
-        this.getPossibilidades().guardeUmItem(fil);
-        fil.removaUmItem();
-                    
+        this.labirinto[p.getLinha()][p.getColuna()] = '*';
+        this.getCaminho().guardeUmItem(p);
+        this.getPossibilidades().guardeUmItem(f);
     }
 
     public void voltar()throws Exception{
-        Coordenada passo = (Coordenada) getCaminho().recupereUmItem();
+        Coordenada novoAtual = (Coordenada) getCaminho().recupereUmItem();
+        setAtual(novoAtual);
         getCaminho().removaUmItem();
-        setAtual(passo);
-        this.labirinto[passo.getLinha()][passo.getColuna()] = ' ';
-
+        this.labirinto[getAtual().getLinha()][getAtual().getColuna()] = ' ';
+        
         this.fila = this.possibilidades.recupereUmItem();
         this.possibilidades.removaUmItem();
     }
 
     public void resolve()throws Exception{
         procuraEntrada();
-        do{
-            if(adicionaAFila() == null){
-                voltar();
-            }else{
-                andar();
+        adicionaAFila();
+
+        while(this.labirinto[getAtual().getLinha()][getAtual().getColuna()] != 'S'){
+            if (!this.fila.isVazia()) {
+                Coordenada passo = this.fila.recupereUmItem();
+                this.fila.removaUmItem();
+
+                if(this.labirinto[passo.getLinha()][passo.getColuna()] == 'S'){
+                    System.out.println("Saída encontrada.");
+                    mostraCaminho();
+                    return;
+                }else{
+                    andar(passo, this.fila);
+                    adicionaAFila();
+                }
+            }
+            else{
+                if(!getCaminho().isVazia()){
+                    voltar();
+                }else{
+                    System.out.println("O labirinto não possui saída.");
+                    return;
+                }
+                    
             }
         }
-        while(this.labirinto[getAtual().getLinha()][getAtual().getColuna()] != 'S'
-                && !this.caminho.isVazia());
-        System.out.println(getAtual().getLinha() + ", " + getAtual().getColuna());
-        if(this.labirinto[getAtual().getLinha()][getAtual().getColuna()] == 'S'){
-            System.out.println("Achou o caminho");
+    }
+
+    public void mostraCaminho()throws Exception{
+        Pilha<Coordenada> inverso = new Pilha<Coordenada>(getLinhas()*getColunas());
+
+        while (!this.getCaminho().isVazia()) {
+            inverso.guardeUmItem(getCaminho().recupereUmItem());
+            getCaminho().removaUmItem();
         }
-        else{
-            System.out.println("O labirinto não possui saída.");
+
+        while (!inverso.isVazia()) {
+            System.out.println(inverso.recupereUmItem());
+            inverso.removaUmItem();
         }
+        
     }
     //metodo de progressao
     //metodo de regressao
-
 
     
 }

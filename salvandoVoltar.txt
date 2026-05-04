@@ -1,0 +1,8 @@
+        Coordenada anterior = (Coordenada) getCaminho().recupereUmItem();
+        getCaminho().removaUmItem();
+        Coordenada passo = (Coordenada) getCaminho().recupereUmItem();
+        setAtual(passo);
+        this.labirinto[anterior.getLinha()][anterior.getColuna()] = ' ';
+
+        this.fila = this.possibilidades.recupereUmItem();
+        this.possibilidades.removaUmItem();
