@@ -90,28 +90,49 @@ public class Labirinto implements Cloneable{
         }
         
     }
+      /// VITÓRIA COMEÇA AQUI/// (ProcuraEntrada e validaSaida) no procuraentrada ante ele so pegava uma entrada ai eu ajustei para ele validar se realmente tem uma ///
+      /// lançando exceção em caso de erro //// 
+      public void procuraEntrada() throws Exception {
+    int contador = 0;
+    Coordenada entrada = null;
 
-    public void procuraEntrada() throws Exception{
-        for (int i= 0; i<=getLinhas()-1; i+=getLinhas()-1){
-            for (int j = 0; j<getColunas(); j++){
-                if (this.labirinto[i][j] == 'E'){
-                    Coordenada c = new Coordenada<>(i, j);
-                    setAtual(c);
-                }
+    for (int i = 0; i < getLinhas(); i++) {
+        for (int j = 0; j < getColunas(); j++) {
+            if (this.labirinto[i][j] == 'E') {
+                contador++;
+                entrada = new Coordenada<>(i, j);
             }
         }
-        for (int k= 0; k<=getColunas()-1; k+=getColunas()-1){
-            for (int l = 0; l<getLinhas(); l++){
-                if (this.labirinto[l][k] == 'E'){
-                    Coordenada c = new Coordenada<>(l, k);
-                    setAtual(c);
-                }
-            }
-        }
-
-        if (getAtual() == null) throw new Exception("O labirinto não possui entrada.");
     }
 
+    if (contador == 0)
+        throw new Exception("O labirinto não possui entrada.");
+
+    if (contador > 1)
+        throw new Exception("O labirinto possui mais de uma entrada.");
+
+    setAtual(entrada);
+}
+
+    /// validaSaida: percorre o labirinto, conta quantas 'S' tem e garante q exista só 1. Se tiver 0 ou mais de 1, lança exceção.
+public void validaSaida() throws Exception {
+    int contador = 0;
+
+    for (int i = 0; i < getLinhas(); i++) {
+        for (int j = 0; j < getColunas(); j++) {
+            if (this.labirinto[i][j] == 'S') {
+                contador++;
+            }
+        }
+    }
+
+    if (contador == 0)
+        throw new Exception("O labirinto não possui saída.");
+
+    if (contador > 1)
+        throw new Exception("O labirinto possui mais de uma saída.");
+}
+// VITÓRIA ENCERRA AQUI///
     public Fila<Coordenada> adicionaAFila() throws Exception{
         try{
             this.fila = new Fila<Coordenada>();
@@ -169,6 +190,7 @@ public class Labirinto implements Cloneable{
 
     public void resolve()throws Exception{
         procuraEntrada();
+        validaSaida(); // (Vitória) Aqui estav faltando adicionar a validação de saida 
         adicionaAFila();
 
         while(this.labirinto[getAtual().getLinha()][getAtual().getColuna()] != 'S'){
